@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+
+<html>
+    <head>
+        <link rel="stylesheet" href="main.css">
+    </head>
+
+<body>
+
+<h1 style="text-align:center">Etch a Sketch</h1>
+
+<div class='hz-center' id="settings">
+    <div class="settings">
+        Squares per row/column
+    </div>
+<input id='sq-per-rw-col' class="settings" type='number' style="width:50px;text-align:center" value=16>
+<button class='settings' id='reset-grid'>Reset Grid</button>
+</div>
+
+<div class='hz-center' id="grid-container">
+
+</div>
+
+</body>
+
+<script>
+
+let gridReset = document.querySelector('#reset-grid');
+gridReset.addEventListener('click', resetGrid)
+
+function drawSquareGrid (gridSize) { // gridSize as in a *gridSize* x *gridSize* grid. ie gridSize = 16 for 16 x 16 grid
+    let container = document.getElementById('grid-container');
+    container.innerHTML = '';
+    let containerWidth = parseInt(window.getComputedStyle(container, null).getPropertyValue('width'), 10);
+    let squareWidth = containerWidth / gridSize; // gridSize * 2 adds up a 1px border on each side for each square
+    console.log(squareWidth);
+    
+    for (i=0; i<Math.pow(gridSize,2); i++) {
+        newSquare = document.createElement('div');
+        newSquare.classList.remove('grid-square--hovered');
+        newSquare.classList.add('grid-square--unhovered');
+        newSquare.style.width = newSquare.style.height = squareWidth + 'px';
+        newSquare.addEventListener('mouseenter', onSquareHover);
+        container.appendChild(newSquare);
+    }
+}
+
+function onSquareHover(e) {
+    this.classList.remove('grid-square--unhovered');
+    this.classList.add('grid-square--hovered');
+}
+
+function resetGrid() {
+    let gridSize = document.getElementById('sq-per-rw-col').value;
+    drawSquareGrid(gridSize);
+}
+
+
+drawSquareGrid(16);
+
+</script>
+
+
+</html>
